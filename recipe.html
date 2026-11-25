@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Recipe</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="recipe">
+  <main>
+    <a href="./" class="back">← All recipes</a>
+    <p id="page-message" class="message"></p>
+
+    <article id="recipe" hidden>
+      <h1 id="title"></h1>
+      <button id="copy" type="button">Copy</button>
+      <span id="copy-message" class="message"></span>
+
+      <h2>Ingredients</h2>
+      <div id="ingredients" class="text"></div>
+      <h2 id="method-heading">Method</h2>
+      <div id="method" class="text"></div>
+
+      <h2>Bake log</h2>
+      <details id="add-bake">
+        <summary>Add bake</summary>
+        <form id="bake-form">
+          <label>Date <input name="date" type="date" required></label>
+          <label>Changes from the recipe <textarea name="changes" rows="2"></textarea></label>
+          <label>Flour type <input name="flour" type="text"></label>
+          <label>Times <textarea name="times" rows="2"></textarea></label>
+          <label>Notes <textarea name="notes" rows="3"></textarea></label>
+          <label>Photos <input name="photos" type="file" accept="image/*" multiple></label>
+          <div id="photo-previews"></div>
+          <button id="clear-photos" type="button" class="secondary" hidden>Remove photos</button>
+          <button type="submit">Save bake</button>
+          <p id="save-message" class="message"></p>
+        </form>
+      </details>
+      <p id="log-message" class="message"></p>
+      <div id="bake-log"></div>
+    </article>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
