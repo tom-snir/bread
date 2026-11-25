@@ -4,5 +4,6 @@
   { "file": "bagels", "title": "Tom's Bagels (Makes 16)", "asWritten": true },
   { "file": "hoagie-rolls", "title": "Hoagie rolls (about 10)" },
   { "file": "pretzel-rolls", "title": "Pretzel rolls (8) or pretzels (12)", "asWritten": true },
-  { "file": "brown-butter-cookies", "title": "Brown Butter Chocolate Chip Cookies", "asWritten": true }
+  { "file": "brown-butter-cookies", "title": "Brown Butter Chocolate Chip Cookies", "asWritten": true },
+  { "file": "challah", "title": "The Overnight Challah", "asWritten": true }
 ]
