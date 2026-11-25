@@ -88,6 +88,7 @@ function parseRecipe(text) {
   const blocks = lines.slice(1).join('\n').trim().split(/\n\s*\n/);
   return {
     title: lines[0].trim(),
+    body: lines.slice(1).join('\n').trim(), // everything after the title, for recipes shown as written
     ingredients: blocks[0] || '',
     method: blocks.slice(1).join('\n\n'),
   };
@@ -244,10 +245,11 @@ async function initListPage() {
 
 async function initRecipePage() {
   const slug = new URLSearchParams(location.search).get('r');
-  let rawText, recipe;
+  let rawText, recipe, entry;
   try {
     const list = await loadRecipeList();
-    if (!list.some((r) => r.file === slug)) throw new Error('Recipe not found.');
+    entry = list.find((r) => r.file === slug);
+    if (!entry) throw new Error('Recipe not found.');
     const res = await fetch(`recipes/${encodeURIComponent(slug)}.txt`, { cache: 'no-cache' });
     if (!res.ok) throw new Error(`Could not load the recipe (${res.status}).`);
     rawText = (await res.text()).replace(/\r\n/g, '\n').trim();
@@ -259,9 +261,16 @@ async function initRecipePage() {
 
   document.title = recipe.title;
   $('title').textContent = recipe.title;
-  $('ingredients').textContent = recipe.ingredients;
-  $('method').textContent = recipe.method;
-  $('method-heading').hidden = !recipe.method;
+  if (entry.asWritten) {
+    // Recipe has its own headings: show it exactly as written, without Ingredients/Method headings
+    $('ingredients-heading').hidden = true;
+    $('ingredients').textContent = recipe.body;
+    $('method-heading').hidden = true;
+  } else {
+    $('ingredients').textContent = recipe.ingredients;
+    $('method').textContent = recipe.method;
+    $('method-heading').hidden = !recipe.method;
+  }
   $('recipe').hidden = false;
 
   // Copy the recipe exactly as written in its file

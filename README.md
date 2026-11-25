@@ -16,11 +16,13 @@ Site: https://tom-snir.github.io/bread/
 - `recipes/list.json` lists every recipe, which the home page and search use:
   ```json
   [
-    { "file": "overnight-baguettes", "title": "Overnight Baguettes (4)" }
+    { "file": "overnight-baguettes", "title": "Overnight Baguettes (4)" },
+    { "file": "poolish-bread", "title": "70% Hydration Poolish Bread", "asWritten": true }
   ]
   ```
+- `"asWritten": true` is for recipes that already have their own headings (e.g. POOLISH / FINAL DOUGH / STEPS). The site then shows the text exactly as written, without adding Ingredients/Method headings.
 
-**To add a recipe:** create `recipes/<file-name>.txt` with the exact text, add a line for it to `recipes/list.json` (`title` = the first line of the text), then commit and push.
+**To add a recipe:** create `recipes/<file-name>.txt` with the exact text, add a line for it to `recipes/list.json` (`title` = the first line of the text; add `"asWritten": true` if it has its own headings), then commit and push.
 **To edit a recipe:** overwrite its `.txt` file (and its title in `list.json` if the title changed). Git history keeps old versions.
 
 ### Bake log: `bakes/` and `photos/`
