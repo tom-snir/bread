@@ -1,4 +1,4 @@
-# 70% Hydration Poolish Bread — bake log
+# 70% Hydration Poolish Bread (2 loaves) — bake log
 
 ## 2026-10-20
 

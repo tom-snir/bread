@@ -9,20 +9,34 @@ Site: https://tom-snir.github.io/bread/
 ### Recipes: `recipes/`
 
 - Each recipe is one plain text file: `recipes/<file-name>.txt`, where the file name is lowercase with dashes, e.g. `overnight-baguettes.txt`.
-- The text is kept **exactly** as given. The site reads it like this:
-  - first line = title
-  - first block after the title (up to the next blank line) = ingredients
-  - everything after that = method
+- Every recipe uses the same layout. The site finds the `Ingredients` and `Method` lines and shows each part under its own heading:
+  ```
+  Title (yield, if known)
+
+  Ingredients
+  500 g flour (strong)
+  350 g water
+  10 g salt (1¾ tsp)
+  0.8 g instant yeast (¼ tsp)
+
+  Method
+  1. ...
+  2. ...
+  ```
+- Standard rules (agreed with the owner):
+  - **Flour** is just `flour`, optionally `(strong)` or `(high-gluten)`. No brands or types (T65, Caputo, bread flour…). The flour actually used goes in each bake's "Flour type".
+  - **Everything in grams.** Under 20 g: grams plus spoons, e.g. `10 g salt (1¾ tsp)`. 20 g and over: grams only. **Yeast** always has grams and spoons.
+  - **Eggs** as a count, e.g. `2 large eggs`.
+  - Ingredient lines are `amount ingredient, note`, e.g. `245 g water, lukewarm`. Groups (e.g. `Poolish:`, `Bath:`) are a line ending in `:`, separated by a blank line.
+  - Method steps are numbered. Keep the owner's wording; only adjust units to match the rules.
 - `recipes/list.json` lists every recipe, which the home page and search use:
   ```json
   [
-    { "file": "overnight-baguettes", "title": "Overnight Baguettes (4)" },
-    { "file": "poolish-bread", "title": "70% Hydration Poolish Bread", "asWritten": true }
+    { "file": "overnight-baguettes", "title": "Overnight Baguettes (4)" }
   ]
   ```
-- `"asWritten": true` is for recipes that already have their own headings (e.g. POOLISH / FINAL DOUGH / STEPS). The site then shows the text exactly as written, without adding Ingredients/Method headings.
 
-**To add a recipe:** create `recipes/<file-name>.txt` with the exact text, add a line for it to `recipes/list.json` (`title` = the first line of the text; add `"asWritten": true` if it has its own headings), then commit and push.
+**To add a recipe:** put the text into the standard layout above (ask the owner before changing anything beyond layout and units), save it as `recipes/<file-name>.txt`, add a line for it to `recipes/list.json` (`title` = the first line of the text), then commit and push.
 **To edit a recipe:** overwrite its `.txt` file (and its title in `list.json` if the title changed). Git history keeps old versions.
 
 ### Bake log: `bakes/` and `photos/`

@@ -82,15 +82,21 @@ async function readBakeFile(slug, ref) {
 
 // ---------- Recipe and bake log formats ----------
 
-// Recipe file: first line is the title, first block after it is the ingredients, the rest is the method.
+// Recipe file: title on the first line, then a line "Ingredients" and a line "Method", each followed by its section.
 function parseRecipe(text) {
   const lines = text.replace(/\r\n/g, '\n').trim().split('\n');
-  const blocks = lines.slice(1).join('\n').trim().split(/\n\s*\n/);
+  const ing = lines.findIndex((l) => l.trim() === 'Ingredients');
+  const met = lines.findIndex((l) => l.trim() === 'Method');
+  const title = lines[0].trim();
+  if (ing < 0 || met < ing) {
+    // Not in the standard layout: show everything after the title, without headings
+    return { title, sections: false, ingredients: lines.slice(1).join('\n').trim(), method: '' };
+  }
   return {
-    title: lines[0].trim(),
-    body: lines.slice(1).join('\n').trim(), // everything after the title, for recipes shown as written
-    ingredients: blocks[0] || '',
-    method: blocks.slice(1).join('\n\n'),
+    title,
+    sections: true,
+    ingredients: lines.slice(ing + 1, met).join('\n').trim(),
+    method: lines.slice(met + 1).join('\n').trim(),
   };
 }
 
@@ -245,11 +251,10 @@ async function initListPage() {
 
 async function initRecipePage() {
   const slug = new URLSearchParams(location.search).get('r');
-  let rawText, recipe, entry;
+  let rawText, recipe;
   try {
     const list = await loadRecipeList();
-    entry = list.find((r) => r.file === slug);
-    if (!entry) throw new Error('Recipe not found.');
+    if (!list.some((r) => r.file === slug)) throw new Error('Recipe not found.');
     const res = await fetch(`recipes/${encodeURIComponent(slug)}.txt`, { cache: 'no-cache' });
     if (!res.ok) throw new Error(`Could not load the recipe (${res.status}).`);
     rawText = (await res.text()).replace(/\r\n/g, '\n').trim();
@@ -261,16 +266,10 @@ async function initRecipePage() {
 
   document.title = recipe.title;
   $('title').textContent = recipe.title;
-  if (entry.asWritten) {
-    // Recipe has its own headings: show it exactly as written, without Ingredients/Method headings
-    $('ingredients-heading').hidden = true;
-    $('ingredients').textContent = recipe.body;
-    $('method-heading').hidden = true;
-  } else {
-    $('ingredients').textContent = recipe.ingredients;
-    $('method').textContent = recipe.method;
-    $('method-heading').hidden = !recipe.method;
-  }
+  $('ingredients').textContent = recipe.ingredients;
+  $('method').textContent = recipe.method;
+  $('ingredients-heading').hidden = !recipe.sections;
+  $('method-heading').hidden = !recipe.sections;
   $('recipe').hidden = false;
 
   // Copy the recipe exactly as written in its file
