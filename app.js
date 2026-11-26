@@ -24,6 +24,13 @@ function showMessage(node, text, kind) {
   node.className = 'message' + (kind ? ' ' + kind : '');
 }
 
+// "2026-11-26" -> "26 Nov 2026" (shown as-is if it isn't a valid date)
+function formatDate(iso) {
+  const [y, m, d] = iso.split('-').map(Number);
+  const date = new Date(y, m - 1, d);
+  return isNaN(date) ? iso : date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
 // Today's date as YYYY-MM-DD in local time
 function todayString() {
   const d = new Date();
@@ -268,8 +275,8 @@ async function initRecipePage() {
   document.title = recipe.title;
   $('title').textContent = recipe.title;
   $('intro').textContent = recipe.intro || '';
-  $('ingredients').textContent = recipe.ingredients;
-  $('method').textContent = recipe.method;
+  renderLines($('ingredients'), recipe.ingredients);
+  renderLines($('method'), recipe.method);
   $('ingredients-heading').hidden = !recipe.sections;
   $('method-heading').hidden = !recipe.sections;
   $('recipe').hidden = false;
@@ -286,6 +293,27 @@ async function initRecipePage() {
 
   setUpBakeForm(slug, recipe.title);
   loadBakeLog(slug);
+
+  // Keep the screen on while the recipe is open; the phone drops this when you switch away, so ask again on return
+  keepScreenOn();
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') keepScreenOn();
+  });
+}
+
+// Asks the browser to stop the screen from dimming (quietly does nothing where unsupported)
+async function keepScreenOn() {
+  try { await navigator.wakeLock?.request('screen'); } catch {}
+}
+
+// Shows text one line per row; tapping a line ticks it off (greyed out), tapping again undoes it
+function renderLines(container, text) {
+  container.replaceChildren(...text.split('\n').map((line) => {
+    if (!line.trim()) return el('div', null, 'line blank');
+    const row = el('div', line, 'line');
+    row.addEventListener('click', () => row.classList.toggle('done'));
+    return row;
+  }));
 }
 
 async function loadBakeLog(slug) {
@@ -302,7 +330,7 @@ async function loadBakeLog(slug) {
 
 function renderBake(bake) {
   const box = el('div', null, 'bake');
-  box.append(el('h3', bake.date));
+  box.append(el('h3', formatDate(bake.date)));
   for (const field of bake.fields) {
     const p = el('p');
     p.append(el('strong', field.label + ': '), el('span', field.value, 'text'));

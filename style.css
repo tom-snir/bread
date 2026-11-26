@@ -36,6 +36,12 @@ a { color: var(--accent); }
 /* Keep the recipe's own line breaks */
 .text { white-space: pre-wrap; }
 
+/* Ingredient and method lines: tap to tick off */
+.line { cursor: pointer; padding: 2px 0; -webkit-tap-highlight-color: transparent; }
+.line.blank { height: 0.75em; cursor: default; padding: 0; }
+.line.done { color: var(--muted); text-decoration: line-through; opacity: 0.6; }
+#method .line { padding: 4px 0; }
+
 /* "Makes ..." line under the recipe title */
 .intro { color: var(--muted); margin: -0.5rem 0 1rem; }
 .intro:empty { display: none; }
