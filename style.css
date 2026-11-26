@@ -1,11 +1,17 @@
-/* Minimal, phone-first styling */
+/* Warm, minimal, phone-first styling */
 :root {
-  --text: #222;
-  --muted: #666;
-  --line: #ddd;
-  --accent: #8a5a2b;
+  --bg: #f6efe4;        /* flour-coloured page background */
+  --card: #fffdf9;      /* cards */
+  --panel: #f9f2e7;     /* ingredients panel */
+  --text: #2b2420;
+  --muted: #7a6d62;
+  --line: #e8dccb;
+  --accent: #8a5a2b;    /* crust brown */
+  --accent-dark: #6f4620;
   --ok: #1d7a33;
   --error: #b3261e;
+  --radius: 12px;
+  --heading-font: "Lora", Georgia, "Times New Roman", serif;
 }
 
 * { box-sizing: border-box; }
@@ -14,74 +20,118 @@ body {
   margin: 0;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   font-size: 17px;
-  line-height: 1.5;
+  line-height: 1.55;
   color: var(--text);
-  background: #fff;
+  background: var(--bg);
 }
 
-main { max-width: 40rem; margin: 0 auto; padding: 16px; }
+main { max-width: 40rem; margin: 0 auto; padding: 16px 16px 48px; }
 
-h1 { font-size: 1.6rem; line-height: 1.2; margin: 0.5rem 0 0.75rem; }
-h2 { font-size: 1.2rem; margin: 1.75rem 0 0.5rem; }
+h1, h2, h3 { font-family: var(--heading-font); font-weight: 600; color: var(--text); }
+h1 { font-size: 1.75rem; line-height: 1.2; margin: 0.75rem 0 1rem; }
+h2 { font-size: 1.25rem; margin: 2rem 0 0.6rem; }
 a { color: var(--accent); }
-.back { display: inline-block; margin-bottom: 0.5rem; }
+.back { display: inline-block; margin-top: 0.25rem; text-decoration: none; font-size: 0.95rem; }
 
 /* Keep the recipe's own line breaks */
 .text { white-space: pre-wrap; }
+
+/* Ingredients stand out in a soft panel */
+#ingredients {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.9rem 1rem;
+}
 
 /* Inputs: 16px font stops phones from zooming in on focus */
 input, textarea, button { font: inherit; font-size: 16px; }
 input[type="search"], input[type="text"], input[type="date"], textarea {
   display: block;
   width: 100%;
-  margin-top: 0.25rem;
-  padding: 0.5rem;
+  margin-top: 0.3rem;
+  padding: 0.6rem 0.75rem;
   border: 1px solid var(--line);
-  border-radius: 6px;
-  background: #fff;
+  border-radius: 10px;
+  background: var(--card);
   color: inherit;
   font-weight: normal;
 }
-input[type="file"] { display: block; margin-top: 0.25rem; font-weight: normal; }
-label { display: block; margin-bottom: 0.75rem; font-weight: 600; }
+input:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+input[type="file"] { display: block; margin-top: 0.3rem; font-weight: normal; }
+label { display: block; margin-bottom: 0.9rem; font-weight: 600; }
 
 button {
-  padding: 0.5rem 1rem;
+  padding: 0.55rem 1.2rem;
   border: 1px solid var(--accent);
-  border-radius: 6px;
+  border-radius: 999px;
   background: var(--accent);
   color: #fff;
+  cursor: pointer;
 }
-button.secondary { background: #fff; color: var(--accent); margin-bottom: 0.75rem; }
+button:hover { background: var(--accent-dark); }
+button.secondary { background: transparent; color: var(--accent); margin-bottom: 0.9rem; }
 button:disabled { opacity: 0.6; }
 
-/* Recipe list */
-#recipe-list { list-style: none; padding: 0; margin: 0.75rem 0 0; }
+/* Recipe list: one card per recipe */
+#recipe-list { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; gap: 10px; }
 #recipe-list a {
   display: block;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid var(--line);
+  padding: 0.9rem 1rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
   text-decoration: none;
+  color: var(--text);
+  font-family: var(--heading-font);
+  font-size: 1.1rem;
 }
+#recipe-list a:hover { border-color: var(--accent); }
 
 /* Status messages */
 .message { color: var(--muted); }
 .message:empty { display: none; }
 .message.ok { color: var(--ok); }
 .message.error { color: var(--error); }
+#copy-message { margin-left: 0.5rem; }
 
-/* Add bake form */
-details summary { cursor: pointer; color: var(--accent); font-weight: 600; margin-bottom: 0.75rem; }
+/* Add bake form, in a card */
+details {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+}
+details summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+details[open] summary { margin-bottom: 0.9rem; }
 #photo-previews img {
   width: 72px;
   height: 72px;
   object-fit: cover;
-  margin: 0 0.25rem 0.25rem 0;
-  border-radius: 4px;
+  margin: 0 0.3rem 0.3rem 0;
+  border-radius: 8px;
 }
 
-/* Bake log entries */
-.bake { border-top: 1px solid var(--line); padding: 0.75rem 0; }
-.bake h3 { font-size: 1.05rem; margin: 0 0 0.25rem; }
+/* Bake log entries, one card each */
+.bake {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.9rem 1rem;
+  margin-bottom: 12px;
+}
+.bake h3 { font-size: 1.1rem; margin: 0 0 0.3rem; }
 .bake p { margin: 0.25rem 0; }
-.bake img { display: block; width: 100%; margin-top: 0.5rem; border-radius: 6px; }
+.bake strong { color: var(--muted); font-weight: 600; }
+
+/* All bake photos the same size: full width, 4:3, cropped to fit. Tap opens the full photo. */
+.bake .photo { display: block; margin-top: 0.6rem; }
+.bake .photo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 8px;
+  background: var(--panel);
+}

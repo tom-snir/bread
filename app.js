@@ -307,11 +307,16 @@ function renderBake(bake) {
     box.append(p);
   }
   for (const path of bake.photos) {
+    // Photos are shown cropped to the same size; tapping opens the full photo
+    const link = el('a', null, 'photo');
+    link.href = path;
+    link.target = '_blank';
     const img = el('img');
     img.src = localPreviews[path] || path;
     img.alt = 'Bake photo';
     img.loading = 'lazy';
-    box.append(img);
+    link.append(img);
+    box.append(link);
   }
   return box;
 }
