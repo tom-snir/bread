@@ -10,8 +10,27 @@
   --accent-dark: #6f4620;
   --ok: #1d7a33;
   --error: #b3261e;
+  --on-accent: #fff;    /* text on buttons */
   --radius: 12px;
   --heading-font: "Lora", Georgia, "Times New Roman", serif;
+  color-scheme: light dark; /* lets the browser draw date pickers etc. to match */
+}
+
+/* Dark mode: follows the phone's setting */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1d1916;
+    --card: #27221e;
+    --panel: #2e2823;
+    --text: #efe6da;
+    --muted: #a89a8c;
+    --line: #3d352e;
+    --accent: #d4a373;
+    --accent-dark: #e0b688;
+    --ok: #6fcf87;
+    --error: #ff8a80;
+    --on-accent: #1d1916;
+  }
 }
 
 * { box-sizing: border-box; }
@@ -76,10 +95,10 @@ button {
   border: 1px solid var(--accent);
   border-radius: 999px;
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
   cursor: pointer;
 }
-button:hover { background: var(--accent-dark); }
+button:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
 button.secondary { background: transparent; color: var(--accent); margin-bottom: 0.9rem; }
 button:disabled { opacity: 0.6; }
 
