@@ -36,6 +36,10 @@ a { color: var(--accent); }
 /* Keep the recipe's own line breaks */
 .text { white-space: pre-wrap; }
 
+/* "Makes ..." line under the recipe title */
+.intro { color: var(--muted); margin: -0.5rem 0 1rem; }
+.intro:empty { display: none; }
+
 /* Ingredients stand out in a soft panel */
 #ingredients {
   background: var(--panel);

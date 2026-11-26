@@ -1,4 +1,4 @@
-# Pretzel rolls (8) or pretzels (12) — bake log
+# Pretzel Rolls — bake log
 
 ## 2026-10-25
 

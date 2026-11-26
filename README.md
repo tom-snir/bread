@@ -11,7 +11,9 @@ Site: https://tom-snir.github.io/bread/
 - Each recipe is one plain text file: `recipes/<file-name>.txt`, where the file name is lowercase with dashes, e.g. `overnight-baguettes.txt`.
 - Every recipe uses the same layout. The site finds the `Ingredients` and `Method` lines and shows each part under its own heading:
   ```
-  Title (yield, if known)
+  Title
+
+  Makes 4 demi-baguettes
 
   Ingredients
   500 g flour (strong)
@@ -24,6 +26,7 @@ Site: https://tom-snir.github.io/bread/
   2. ...
   ```
 - Standard rules (agreed with the owner):
+  - **Title** is just what it is, in Title Case (e.g. `Baguettes`, `Hoagie Rolls`): no count, no "overnight". How many it makes goes on a `Makes …` line under the title (left out if the recipe doesn't say). The site shows that line under the title.
   - **Flour** is just `flour`, optionally `(strong)` or `(high-gluten)`. No brands or types (T65, Caputo, bread flour…). The flour actually used goes in each bake's "Flour type".
   - **Everything in grams.** Under 20 g: grams plus spoons, e.g. `10 g salt (1¾ tsp)`. 20 g and over: grams only. **Yeast** always has grams and spoons.
   - **Eggs** as a count, e.g. `2 large eggs`.

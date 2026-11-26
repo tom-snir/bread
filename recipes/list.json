@@ -1,11 +1,11 @@
 [
-  { "file": "overnight-baguettes", "title": "Overnight Baguettes (4)" },
-  { "file": "poolish-bread", "title": "70% Hydration Poolish Bread (2 loaves)" },
-  { "file": "bagels", "title": "Tom's Bagels (Makes 16)" },
-  { "file": "hoagie-rolls", "title": "Hoagie rolls (about 10)" },
-  { "file": "pretzel-rolls", "title": "Pretzel rolls (8) or pretzels (12)" },
+  { "file": "overnight-baguettes", "title": "Baguettes" },
+  { "file": "poolish-bread", "title": "Poolish Bread" },
+  { "file": "bagels", "title": "Bagels" },
+  { "file": "hoagie-rolls", "title": "Hoagie Rolls" },
+  { "file": "pretzel-rolls", "title": "Pretzel Rolls" },
   { "file": "brown-butter-cookies", "title": "Brown Butter Chocolate Chip Cookies" },
-  { "file": "challah", "title": "The Overnight Challah" },
+  { "file": "challah", "title": "Challah" },
   { "file": "pizza", "title": "Pizza" },
-  { "file": "zopf-rolls", "title": "Zopf rolls (overnight)" }
+  { "file": "zopf-rolls", "title": "Zopf Rolls" }
 ]

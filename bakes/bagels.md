@@ -1,4 +1,4 @@
-# Tom's Bagels (Makes 16) — bake log
+# Bagels — bake log
 
 ## 2026-11-21
 

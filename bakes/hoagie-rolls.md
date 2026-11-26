@@ -1,4 +1,4 @@
-# Hoagie rolls (about 10) — bake log
+# Hoagie Rolls — bake log
 
 ## 2026-09-23
 

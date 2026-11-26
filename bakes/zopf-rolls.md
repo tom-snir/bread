@@ -1,4 +1,4 @@
-# Zopf rolls (overnight) — bake log
+# Zopf Rolls — bake log
 
 ## 2026-11-26
 

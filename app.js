@@ -95,6 +95,7 @@ function parseRecipe(text) {
   return {
     title,
     sections: true,
+    intro: lines.slice(1, ing).join('\n').trim(), // e.g. "Makes 4 demi-baguettes"
     ingredients: lines.slice(ing + 1, met).join('\n').trim(),
     method: lines.slice(met + 1).join('\n').trim(),
   };
@@ -266,6 +267,7 @@ async function initRecipePage() {
 
   document.title = recipe.title;
   $('title').textContent = recipe.title;
+  $('intro').textContent = recipe.intro || '';
   $('ingredients').textContent = recipe.ingredients;
   $('method').textContent = recipe.method;
   $('ingredients-heading').hidden = !recipe.sections;

@@ -1,4 +1,4 @@
-# The Overnight Challah — bake log
+# Challah — bake log
 
 ## 2026-06-15
 

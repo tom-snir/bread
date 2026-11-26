@@ -1,4 +1,4 @@
-# Overnight Baguettes (4) — bake log
+# Baguettes — bake log
 
 ## 2026-11-25
 
