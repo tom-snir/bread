@@ -82,7 +82,7 @@ input[type="search"], input[type="text"], input[type="date"], textarea {
   padding: 0.6rem 0.75rem;
   border: 1px solid var(--line);
   border-radius: 10px;
-  background: var(--card);
+  background: var(--bg); /* stands out from the card it sits in */
   color: inherit;
   font-weight: normal;
 }
