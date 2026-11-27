@@ -1,6 +1,6 @@
 [
   { "file": "overnight-baguettes", "title": "Baguettes" },
-  { "file": "poolish-bread", "title": "Poolish Bread" },
+  { "file": "poolish-bread", "title": "Poolish Bread", "video": "videos/poolish-bread.mp4" },
   { "file": "bagels", "title": "Bagels" },
   { "file": "hoagie-rolls", "title": "Hoagie Rolls" },
   { "file": "pretzel-rolls", "title": "Pretzel Rolls" },

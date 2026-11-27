@@ -259,10 +259,11 @@ async function initListPage() {
 
 async function initRecipePage() {
   const slug = new URLSearchParams(location.search).get('r');
-  let rawText, recipe;
+  let rawText, recipe, entry;
   try {
     const list = await loadRecipeList();
-    if (!list.some((r) => r.file === slug)) throw new Error('Recipe not found.');
+    entry = list.find((r) => r.file === slug);
+    if (!entry) throw new Error('Recipe not found.');
     const res = await fetch(`recipes/${encodeURIComponent(slug)}.txt`, { cache: 'no-cache' });
     if (!res.ok) throw new Error(`Could not load the recipe (${res.status}).`);
     rawText = (await res.text()).replace(/\r\n/g, '\n').trim();
@@ -279,6 +280,11 @@ async function initRecipePage() {
   renderLines($('method'), recipe.method);
   $('ingredients-heading').hidden = !recipe.sections;
   $('method-heading').hidden = !recipe.sections;
+  // Optional silent looping clip, set by "video" in list.json
+  if (entry.video) {
+    $('video').src = entry.video;
+    $('video').hidden = false;
+  }
   $('recipe').hidden = false;
 
   // Copy the recipe exactly as written in its file
