@@ -40,6 +40,7 @@ Site: https://tom-snir.github.io/bread/
   ```
 
 **To add a recipe:** put the text into the standard layout above (ask the owner before changing anything beyond layout and units), save it as `recipes/<file-name>.txt`, add a line for it to `recipes/list.json` (`title` = the first line of the text), then commit and push.
+**To add a clip to a recipe:** remove the sound and shrink it (`ffmpeg -i in.mp4 -an -map_metadata -1 -c:v libx264 -crf 26 -movflags +faststart videos/<file-name>.mp4`), then add `"video": "videos/<file-name>.mp4"` to that recipe's line in `list.json`. It plays below the Method like a GIF: silent, looping, no controls.
 **To edit a recipe:** overwrite its `.txt` file (and its title in `list.json` if the title changed). Git history keeps old versions.
 
 ### Bake log: `bakes/` and `photos/`
