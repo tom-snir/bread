@@ -177,21 +177,24 @@ async function shrinkPhoto(file) {
 
 // ---------- Weather ----------
 
-// That day's outdoor low–high in Ramat HaSharon, from Open-Meteo (free, no account). Works for past dates too.
+// That day's average outdoor temperature and humidity in Ramat HaSharon, from Open-Meteo (free, no account).
+// Works for past dates too.
 const WEATHER_URL = 'https://historical-forecast-api.open-meteo.com/v1/forecast'
-  + '?latitude=32.15&longitude=34.84&daily=temperature_2m_min,temperature_2m_max&timezone=Asia%2FJerusalem';
+  + '?latitude=32.15&longitude=34.84&daily=temperature_2m_mean,relative_humidity_2m_mean&timezone=Asia%2FJerusalem';
 
-// Returns e.g. "13–25°C", or '' if it can't be found (the bake still saves without it).
+// Returns e.g. { temp: "18°C", humidity: "75%" }; a value is '' if it can't be found (the bake still saves without it).
 async function dayWeather(date) {
   try {
     const res = await fetch(`${WEATHER_URL}&start_date=${date}&end_date=${date}`, { signal: AbortSignal.timeout(8000) });
     const daily = (await res.json()).daily;
-    const lo = daily.temperature_2m_min[0];
-    const hi = daily.temperature_2m_max[0];
-    if (lo == null || hi == null) return '';
-    return `${Math.round(lo)}–${Math.round(hi)}°C`;
+    const temp = daily.temperature_2m_mean[0];
+    const humidity = daily.relative_humidity_2m_mean[0];
+    return {
+      temp: temp == null ? '' : `${Math.round(temp)}°C`,
+      humidity: humidity == null ? '' : `${Math.round(humidity)}%`,
+    };
   } catch {
-    return '';
+    return { temp: '', humidity: '' };
   }
 }
 
@@ -219,12 +222,14 @@ async function saveBake(slug, title, form) {
   const parentSha = ref.object.sha;
   const parent = await apiJson(`/git/commits/${parentSha}`, { token });
   const currentLog = await readBakeFile(slug, parentSha);
+  const weather = await dayWeather(date);
 
   const entry = buildEntry(date, [
     ['Changes from the recipe', form.changes.value],
     ['Flour type', form.flour.value],
     ['Times', form.times.value],
-    ['Outdoor temp', await dayWeather(date)],
+    ['Outdoor temp', weather.temp],
+    ['Humidity', weather.humidity],
     ['Notes', form.notes.value],
   ], paths);
 
