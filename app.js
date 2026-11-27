@@ -321,16 +321,33 @@ async function initRecipePage() {
   setUpBakeForm(slug, recipe.title);
   loadBakeLog(slug);
 
-  // Keep the screen on while the recipe is open; the phone drops this when you switch away, so ask again on return
+  // Keep the screen on while the recipe is in use; the phone drops this when you switch away, so ask again on return.
+  // Any touch, scroll or key press counts as use and restarts the idle timer.
   keepScreenOn();
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') keepScreenOn();
   });
+  for (const type of ['pointerdown', 'scroll', 'keydown']) {
+    addEventListener(type, keepScreenOn, { passive: true });
+  }
 }
+
+const SCREEN_IDLE_MS = 20 * 60 * 1000; // after 20 minutes untouched, let the phone sleep as normal
+let wakeLock = null;      // the active screen lock, if any
+let wakeRequested = false; // stops several requests going out at once
+let idleTimer = null;
 
 // Asks the browser to stop the screen from dimming (quietly does nothing where unsupported)
 async function keepScreenOn() {
-  try { await navigator.wakeLock?.request('screen'); } catch {}
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(() => wakeLock?.release(), SCREEN_IDLE_MS);
+  if (wakeLock || wakeRequested || document.visibilityState !== 'visible' || !navigator.wakeLock) return;
+  wakeRequested = true;
+  try {
+    wakeLock = await navigator.wakeLock.request('screen');
+    wakeLock.addEventListener('release', () => { wakeLock = null; });
+  } catch {}
+  wakeRequested = false;
 }
 
 // Shows text one line per row; tapping a line ticks it off (greyed out), tapping again undoes it
