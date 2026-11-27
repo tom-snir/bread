@@ -56,10 +56,13 @@ Site: https://tom-snir.github.io/bread/
 
   **Times:** ...
 
+  **Outdoor temp:** 13–25°C
+
   **Notes:** ...
 
   ![photo](../photos/overnight-baguettes/2026-11-25-153012-1.jpg)
   ```
+- **Outdoor temp** is added automatically when saving: that day's low–high in Ramat HaSharon, from Open-Meteo (free, no account). Bakes added by hand should get it too (same lookup, `historical-forecast-api.open-meteo.com`).
 - Photos are shrunk in the browser (longest side 1600 px, JPEG) and stored in `photos/<file-name>/<date>-<time>-<n>.jpg`.
 - Bakes are saved from the site through the GitHub API, one commit per bake. To edit or delete one, edit the `.md` file (and delete any photos it no longer uses).
 
